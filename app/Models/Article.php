@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title', 'text', 'user_id', 'image'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
