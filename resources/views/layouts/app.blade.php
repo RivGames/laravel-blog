@@ -12,10 +12,11 @@
   <!-- Navbar -->
   <nav class="bg-gray-800 text-white p-4">
     <div class="container mx-auto flex justify-between">
-      <a href="/" class="text-lg font-semibold">My Blog</a>
+      <a href=" {{ route('main') }} " class="text-lg font-semibold">My Blog</a>
       <ul class="flex space-x-4">
-        <li><a href="/" class="hover:text-gray-300">Home</a></li>
-        <li><a href="/about" class="hover:text-gray-300">About</a></li>
+        <li><a href=" {{ route('main') }} " class="hover:text-gray-300">Home</a></li>
+        <li><a href=" {{ route('about') }} " class="text-blue-600 hover:text-gray-300">About</a></li>
+        <li><a href=" {{ route('articles.create') }} " class="text-green-500 hover:text-gray-300">Create an article</a></li>
       </ul>
     </div>
   </nav>
