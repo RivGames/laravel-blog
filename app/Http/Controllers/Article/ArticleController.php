@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\StoreArticleRequest;
 use App\Http\Requests\Article\UpdateArticleRequest;
 use App\Models\Article;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {
@@ -22,22 +21,10 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArticleRequest $request)
+    public function store(StoreArticleRequest $request, ArticleService $articleService)
     {
-        $userData = $request->validated();
+        $articleService->create($request->validated(), auth()->id());
 
-        $article = Article::create([
-            'title' => $userData['title'],
-            'text' => $userData['text'],
-            'user_id' => auth()->id(),
-        ]);
-        if($request->hasFile('image')){
-            $path = $request->file('image')->store('images','public');
-            
-            $article->update([
-                'image' => $path,
-            ]);
-        }
         return redirect()->route('main');
     }
 
@@ -46,40 +33,33 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles.show',compact('article'));
+        return view('articles.show', compact('article'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-
     public function edit(Article $article)
     {
-        return view('articles.edit',compact('article'));
+        return view('articles.edit', compact('article'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArticleRequest $request, Article $article)
+    public function update(UpdateArticleRequest $request, Article $article, ArticleService $articleService)
     {
-        $article->update($request->validated());
-        if($request->hasFile('image')){
-            $path = $request->file('image')->store('images','public');
-            
-            $article->update([
-                'image' => $path,
-            ]);
-        }
-        return redirect()->route('articles.show',$article->id);
+        $articleService->update($request->validated(), $article);
+
+        return redirect()->route('articles.show', $article->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article, ArticleService $articleService)
     {
-        $article->delete();
+        $articleService->destroy($article);
 
         return redirect()->route('main');
     }

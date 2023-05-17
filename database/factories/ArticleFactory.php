@@ -19,7 +19,7 @@ class ArticleFactory extends Factory
         return [
             'title' => fake()->word(),
             'text' => fake()->realText(),
-            'user_id' => random_int(1,2),
+            'user_id' => random_int(1, 2),
         ];
     }
 }

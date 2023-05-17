@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -14,6 +13,7 @@ class MainController extends Controller
 
         return view('main.main', compact('articles'));
     }
+
     public function about()
     {
         return view('main.about');
