@@ -34,10 +34,9 @@ class ArticleTest extends TestCase
         $user = User::factory()->create();
         $article = Article::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('articles.show',$article->id));
+        $response = $this->actingAs($user)->get(route('articles.show', $article->id));
 
         $response->assertSeeText($article->title);
         $response->assertSeeText($article->description);
     }
-
 }
