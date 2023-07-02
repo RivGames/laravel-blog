@@ -25,6 +25,14 @@ class UpdateArticleRequest extends FormRequest
             'title' => ['required', 'min:5'],
             'text' => ['required', 'min:5', 'max:65000'],
             'image' => ['max:2048', 'mimes:jpg,png,jpeg'],
+            'category' => ['required','integer']
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'category.integer' => 'Please provide a category!'
         ];
     }
 }

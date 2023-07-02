@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,9 +14,9 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CategoryService $service)
     {
-        $categories = Category::paginate(15);
+        $categories = $service->getPaginatedCategories();
 
         return view('categories.index', compact('categories'));
     }
@@ -31,11 +32,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, CategoryService $service)
     {
-        $userData = $request->validated();
-
-        Category::create($userData);
+        $service->createCategory($request->validated());
 
         return redirect()->to('/');
     }
@@ -59,10 +58,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Category $category)
+    public function update(UpdateRequest $request, Category $category,CategoryService $service)
     {
-        $userData = $request->validated();
-        $category->update($userData);
+        $service->updateCategory($request->validated(),$category);
 
         return redirect()->route('categories.index');
     }
@@ -70,9 +68,9 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category,CategoryService $service)
     {
-        $category->delete();
+        $service->deleteCategory($category);
 
         return redirect()->route('categories.index');
     }

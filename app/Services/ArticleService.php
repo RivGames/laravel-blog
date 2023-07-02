@@ -13,6 +13,7 @@ class ArticleService
             'title' => $userData['title'],
             'text' => $userData['text'],
             'user_id' => $user_id,
+            'category_id' => $userData['category'],
         ]);
 
         if (isset($userData['image'])) {
@@ -26,7 +27,11 @@ class ArticleService
 
     public function update(mixed $userData, Article $article)
     {
-        $article->update($userData);
+        $article->update([
+            'title' => $userData['title'],
+            'text' => $userData['text'],
+            'category_id' => $userData['category'],
+        ]);
 
         if (isset($userData['image'])) {
             $path = Storage::disk('public')->put('images', $userData['image']);

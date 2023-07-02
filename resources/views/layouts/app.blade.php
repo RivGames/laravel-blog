@@ -17,7 +17,7 @@
         <li><a href=" {{ route('main') }} " class="hover:text-gray-300">Home</a></li>
         <li><a href=" {{ route('about') }} " class="text-blue-600 hover:text-gray-300">About</a></li>
         <li><a href=" {{ route('articles.create') }} " class="text-green-500 hover:text-gray-300">Create an article</a></li>
-        <li><a href=" {{ route('categories.index') }} " class="text-green-500 hover:text-gray-300">Categories</a></li>
+        <li><a href=" {{ route('categories.index') }} " class="text-pink-900 hover:text-pink-300">Categories</a></li>
       </ul>
     </div>
   </nav>

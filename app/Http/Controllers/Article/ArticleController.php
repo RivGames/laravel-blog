@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\StoreArticleRequest;
 use App\Http\Requests\Article\UpdateArticleRequest;
+use App\Jobs\CreatedNewArticle;
 use App\Models\Article;
+use App\Models\Category;
 use App\Services\ArticleService;
 
 class ArticleController extends Controller
@@ -15,7 +17,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $categories = Category::all();
+
+        return view('articles.create',compact('categories'));
     }
 
     /**
@@ -24,6 +28,8 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request, ArticleService $articleService)
     {
         $articleService->create($request->validated(), auth()->id());
+
+        CreatedNewArticle::dispatch($request->user());
 
         return redirect()->route('main');
     }
@@ -41,7 +47,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $categories = Category::all();
+
+        return view('articles.edit', compact('article','categories'));
     }
 
     /**
