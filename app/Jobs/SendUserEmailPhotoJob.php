@@ -2,35 +2,34 @@
 
 namespace App\Jobs;
 
+use App\Mail\SendUserEmailPhoto;
 use App\Models\User;
-use Exception;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Process;
 
-class CreatedNewArticle implements ShouldQueue
+class SendUserEmailPhotoJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(private readonly User $user){}
+    public function __construct(private readonly User $user)
+    {
+        //
+    }
 
     /**
      * Execute the job.
      */
     public function handle(): void
     {
-        Mail::to($this->user)->send(new \App\Mail\CreatedNewArticle($this->user));
-    }
-
-    public function failed(\Throwable $throwable)
-    {
-        logger()->warning('Job is failed!');
+        Mail::to($this->user)->send(new SendUserEmailPhoto);
     }
 }
